@@ -17,14 +17,14 @@ class HangpersonGame
   end
 
   def guess(letter)
-    raise ArgumentError if letter.nil? or letter.empty? or letter =~ /[^a-zA-Z]/
+    raise ArgumentError, 'Invalid input' if letter.nil? or letter.empty? or letter =~ /[^a-zA-Z]/
     letter.downcase!
-    return false if @guesses.include? letter
+    raise 'You have already used that letter' if @guesses.include? letter or @wrong_guesses.include? letter
     if @word.downcase.include? letter
       @guesses += letter
       true
     else
-      @wrong_guesses = letter
+      @wrong_guesses += letter
       @count_wrong_guesses += 1
       false
     end

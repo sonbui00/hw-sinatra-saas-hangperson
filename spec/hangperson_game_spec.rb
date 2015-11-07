@@ -49,23 +49,24 @@ describe HangpersonGame do
     context 'same letter repeatedly' do
       before :each do
         @game = HangpersonGame.new('garply')
+        @error_message = 'You have already used that letter'
         guess_several_letters(@game, 'aq')
       end
       it 'does not change correct guess list' do
-        @game.guess('a')
+        expect { @game.guess('a') }.to raise_error @error_message
         expect(@game.guesses).to eq('a')
       end
       it 'does not change wrong guess list' do
-        @game.guess('q')
+        expect { @game.guess('q') }.to raise_error @error_message
         expect(@game.wrong_guesses).to eq('q')
       end
-      it 'returns false' do
-        expect(@game.guess('a')).to be false
-        expect(@game.guess('q')).to be false
+      it 'throw an error' do
+        expect { @game.guess('a') }.to raise_error @error_message
+        expect { @game.guess('q') }.to raise_error @error_message
       end
       it 'is case insensitive' do
-        expect(@game.guess('A')).to be false
-        expect(@game.guess('Q')).to be false
+        expect { @game.guess('A') }.to raise_error @error_message
+        expect { @game.guess('Q') }.to raise_error @error_message
         expect(@game.guesses).not_to include('A')
         expect(@game.wrong_guesses).not_to include('Q')
       end
